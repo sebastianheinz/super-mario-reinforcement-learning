@@ -7,7 +7,7 @@ from agent import DQNAgent
 from wrappers import wrapper
 
 
-# Build env (first level)
+# Build env (first level, right only)
 env = gym_super_mario_bros.make('SuperMarioBros-1-1-v0')
 env = BinarySpaceToDiscreteSpaceEnv(env, RIGHT_ONLY)
 env = wrapper(env)
@@ -73,10 +73,10 @@ for e in range(episodes):
 
     # Print
     if e % 100 == 0:
-        print('Episode {e} - +'
-              'Frame {f} - +'
-              'Frames/sec {fs} - +'
-              'Epsilon {eps} - +'
+        print('Episode {e} - '
+              'Frame {f} - '
+              'Frames/sec {fs} - '
+              'Epsilon {eps} - '
               'Mean Reward {r}'.format(e=e,
                                        f=agent.step,
                                        fs=np.round((agent.step - step) / (time.time() - start)),

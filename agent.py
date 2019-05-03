@@ -39,20 +39,20 @@ class DQNAgent:
         self.input_float = tf.to_float(self.input) / 255.
         # Online network
         with tf.variable_scope('online'):
-            self.conv_1 = tf.keras.layers.conv2d(inputs=self.input_float, filters=32, kernel_size=8, strides=4, activation=tf.nn.relu)
-            self.conv_2 = tf.keras.layers.conv2d(inputs=self.conv_1, filters=64, kernel_size=4, strides=2, activation=tf.nn.relu)
-            self.conv_3 = tf.keras.layers.conv2d(inputs=self.conv_2, filters=64, kernel_size=3, strides=1, activation=tf.nn.relu)
-            self.flatten = tf.keras.layers.flatten(inputs=self.conv_3)
-            self.dense = tf.keras.layers.dense(inputs=self.flatten, units=512, activation=tf.nn.relu)
-            self.output = tf.keras.layers.dense(inputs=self.dense, units=self.actions, name='output')
+            self.conv_1 = tf.layers.conv2d(inputs=self.input_float, filters=32, kernel_size=8, strides=4, activation=tf.nn.relu)
+            self.conv_2 = tf.layers.conv2d(inputs=self.conv_1, filters=64, kernel_size=4, strides=2, activation=tf.nn.relu)
+            self.conv_3 = tf.layers.conv2d(inputs=self.conv_2, filters=64, kernel_size=3, strides=1, activation=tf.nn.relu)
+            self.flatten = tf.layers.flatten(inputs=self.conv_3)
+            self.dense = tf.layers.dense(inputs=self.flatten, units=512, activation=tf.nn.relu)
+            self.output = tf.layers.dense(inputs=self.dense, units=self.actions, name='output')
         # Target network
         with tf.variable_scope('target'):
-            self.conv_1_target = tf.keras.layers.conv2d(inputs=self.input_float, filters=32, kernel_size=8, strides=4, activation=tf.nn.relu)
-            self.conv_2_target = tf.keras.layers.conv2d(inputs=self.conv_1_target, filters=64, kernel_size=4, strides=2, activation=tf.nn.relu)
-            self.conv_3_target = tf.keras.layers.conv2d(inputs=self.conv_2_target, filters=64, kernel_size=3, strides=1, activation=tf.nn.relu)
-            self.flatten_target = tf.keras.layers.flatten(inputs=self.conv_3_target)
-            self.dense_target = tf.keras.layers.dense(inputs=self.flatten_target, units=512, activation=tf.nn.relu)
-            self.output_target = tf.stop_gradient(tf.keras.layers.dense(inputs=self.dense_target, units=self.actions, name='output_target'))
+            self.conv_1_target = tf.layers.conv2d(inputs=self.input_float, filters=32, kernel_size=8, strides=4, activation=tf.nn.relu)
+            self.conv_2_target = tf.layers.conv2d(inputs=self.conv_1_target, filters=64, kernel_size=4, strides=2, activation=tf.nn.relu)
+            self.conv_3_target = tf.layers.conv2d(inputs=self.conv_2_target, filters=64, kernel_size=3, strides=1, activation=tf.nn.relu)
+            self.flatten_target = tf.layers.flatten(inputs=self.conv_3_target)
+            self.dense_target = tf.layers.dense(inputs=self.flatten_target, units=512, activation=tf.nn.relu)
+            self.output_target = tf.stop_gradient(tf.layers.dense(inputs=self.dense_target, units=self.actions, name='output_target'))
         # Optimizer
         self.action = tf.argmax(input=self.output, axis=1)
         self.q_pred = tf.gather_nd(params=self.output, indices=tf.stack([tf.range(tf.shape(self.a_true)[0]), self.a_true], axis=1))
