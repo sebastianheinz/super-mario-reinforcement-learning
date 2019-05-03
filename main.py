@@ -20,7 +20,7 @@ actions = env.action_space.n
 agent = DQNAgent(states=states, actions=actions, max_memory=100000, double_q=True)
 
 # Episodes
-episodes = 50000
+episodes = 10000
 rewards = []
 
 # Timing
