@@ -227,5 +227,5 @@ def wrapper(env):
        env = FireResetEnv(env)
     env = WarpFrame(env)
     env = FrameStack(env, 4)
-    #env = ClipRewardEnv(env)
+    env = ClipRewardEnv(env)
     return env
